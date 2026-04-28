@@ -1,8 +1,9 @@
+// Arquivo: model/transaction/transaction.go
 package transaction
 
 import "time"
 
-// Transaction blablabla
+// Transaction representa uma única transação financeira
 type Transaction struct {
 	Title     string    `json:"title"`
 	Amount    float64   `json:"amount"`
@@ -10,5 +11,5 @@ type Transaction struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-// Transactions blablabla
+// Transactions é um slice (lista) de transações
 type Transactions []Transaction
