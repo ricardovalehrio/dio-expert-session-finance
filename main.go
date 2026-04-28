@@ -1,4 +1,3 @@
-// Arquivo: main.go (na raiz do projeto)
 package main
 
 import (
@@ -7,21 +6,16 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-	// O caminho deve bater exatamente com o module no seu go.mod
+
 	"github.com/ricardovalehrio/dio-expert-session-finance/model/transaction"
 )
 
 func main() {
-	// Definindo as rotas
 	http.HandleFunc("/transactions", getTransactions)
 	http.HandleFunc("/transactions/create", createATransaction)
 
-	fmt.Println("Servidor iniciado com sucesso na porta 8080...")
-	// Inicia o servidor
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		fmt.Printf("Erro ao iniciar o servidor: %s\n", err)
-	}
+	fmt.Println("Servidor rodando na porta 8080...")
+	http.ListenAndServe(":8080", nil)
 }
 
 func getTransactions(w http.ResponseWriter, r *http.Request) {
@@ -29,22 +23,19 @@ func getTransactions(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 
 	layout := "2006-01-02T15:04:05"
 	salaryReceived, _ := time.Parse(layout, "2026-04-26T14:56:05")
 
-	// Criando uma lista de exemplo usando o pacote transaction
 	minhasTransacoes := transaction.Transactions{
-		transaction.Transaction{
+		{
 			Title:     "Salário Mensal",
 			Amount:    1200.0,
 			Type:      0,
 			CreatedAt: salaryReceived,
 		},
 	}
-
 	json.NewEncoder(w).Encode(minhasTransacoes)
 }
 
@@ -56,18 +47,19 @@ func createATransaction(w http.ResponseWriter, r *http.Request) {
 
 	var novaTransacao transaction.Transaction
 	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+	if err != nil || len(body) == 0 {
+		w.WriteHeader(http.StatusBadRequest) // Erro 400 se o body estiver vazio
+		fmt.Fprint(w, "Corpo da requisição vazio")
 		return
 	}
 
-	// Converte o JSON recebido para a struct
 	err = json.Unmarshal(body, &novaTransacao)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "JSON inválido")
 		return
 	}
 
-	fmt.Printf("Transação recebida: %+v\n", novaTransacao)
+	fmt.Printf("Recebido: %+v\n", novaTransacao)
 	w.WriteHeader(http.StatusCreated)
 }

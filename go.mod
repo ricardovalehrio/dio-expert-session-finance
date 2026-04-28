@@ -1,6 +1,6 @@
 module github.com/ricardovalehrio/dio-expert-session-finance
 
-go 1.26.2
+go 1.25.0
 
 require github.com/prometheus/client_golang v1.23.2
 

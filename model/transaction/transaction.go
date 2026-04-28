@@ -1,4 +1,4 @@
-// Arquivo: model/transaction/main.go
+// Arquivo: model/transaction/transaction.go
 package transaction
 
 import "time"
