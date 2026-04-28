@@ -23,3 +23,10 @@ Esta é uma API REST desenvolvida em **GoLang** que une conceitos de **Ciência 
 1. **Clone o repositório:**
    ```bash
    git clone [https://github.com/ricardovalehrio/dio-expert-session-finance.git](https://github.com/ricardovalehrio/dio-expert-session-finance.git)
+
+👤 Autor
+Ricardo Valério Silva Oliveira
+
+Estudante de Ciências da Contabilidade & Ciência da Computação (UFS).
+
+LinkedIn
